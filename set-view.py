@@ -1,14 +1,27 @@
 """Agents panel filter: current workspace + blocked anywhere. herdr drops the view on server exit;
-the plugin's [[startup]] hook runs this again after every start."""
+the plugin's [[startup]] hook runs this again after every start.
+--toggle switches between this filter and herdr's normal Agents view; the choice survives restarts."""
 import json, os, socket, sys
 
-req = {"id": "view_set", "method": "agent.view.set", "params": {
-    "source": "plugin:" + os.environ["HERDR_PLUGIN_ID"], "label": "focus",
-    "filter": {"op": "any", "filters": [
-        {"op": "eq", "field": "workspace_id", "value": {"context": "current_workspace_id"}},
-        {"op": "in", "field": "status", "values": ["blocked"]}]},
-    "sort": [{"field": "attention", "order": "desc"},
-             {"field": "state_change_seq", "order": "desc"}]}}
+OFF = os.path.join(os.environ.get("HERDR_PLUGIN_STATE_DIR") or os.path.dirname(os.path.abspath(__file__)), "off")
+SOURCE = "plugin:" + os.environ["HERDR_PLUGIN_ID"]
+
+if "--toggle" in sys.argv:
+    if os.path.exists(OFF):
+        os.remove(OFF)
+    else:
+        open(OFF, "w").close()
+
+if os.path.exists(OFF):
+    req = {"id": "view_clear", "method": "agent.view.clear", "params": {"source": SOURCE}}
+else:
+    req = {"id": "view_set", "method": "agent.view.set", "params": {
+        "source": SOURCE, "label": "focus",
+        "filter": {"op": "any", "filters": [
+            {"op": "eq", "field": "workspace_id", "value": {"context": "current_workspace_id"}},
+            {"op": "in", "field": "status", "values": ["blocked"]}]},
+        "sort": [{"field": "attention", "order": "desc"},
+                 {"field": "state_change_seq", "order": "desc"}]}}
 
 s = socket.socket(socket.AF_UNIX)
 s.settimeout(5)

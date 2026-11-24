@@ -25,6 +25,18 @@ The view applies automatically on startup. To apply it by hand (for example righ
 herdr plugin action invoke agent-focus.apply
 ```
 
+## Toggle
+
+The **Toggle agent focus filter** action switches between this filter and herdr's normal Agents view. Your choice is remembered across herdr restarts. Bind it to a key in `config.toml` if you like:
+
+```toml
+[[keys.command]]
+key = "prefix+alt+a"
+type = "plugin_action"
+command = "agent-focus.toggle"
+description = "toggle agent focus filter"
+```
+
 ## Change the filter
 
 Edit the `filter` and `sort` in `set-view.py`. For example, add `"done"` next to `"blocked"` to also show finished agents from other Spaces.

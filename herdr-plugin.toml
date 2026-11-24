@@ -1,6 +1,6 @@
 id = "agent-focus"
 name = "Agent focus"
-version = "0.1.1"
+version = "0.1.2"
 min_herdr_version = "0.9.0"
 description = "Agents panel: current workspace + blocked anywhere"
 platforms = ["linux", "macos"]
@@ -14,3 +14,10 @@ id = "apply"
 title = "Apply agent focus filter"
 contexts = ["workspace"]
 command = ["python3", "-I", "set-view.py"]
+
+# Switch between the focus filter and herdr's normal Agents view (remembered across restarts).
+[[actions]]
+id = "toggle"
+title = "Toggle agent focus filter"
+contexts = ["workspace"]
+command = ["python3", "-I", "set-view.py", "--toggle"]
