@@ -1,0 +1,16 @@
+id = "agent-focus"
+name = "Agent focus"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Agents panel: current workspace + blocked anywhere"
+platforms = ["linux", "macos"]
+
+[[startup]]
+command = ["python3", "-I", "set-view.py"]
+
+# same command as an action: lets you re-apply by hand and test it without a restart
+[[actions]]
+id = "apply"
+title = "Apply agent focus filter"
+contexts = ["workspace"]
+command = ["python3", "-I", "set-view.py"]
