@@ -1,6 +1,6 @@
 id = "agent-focus"
 name = "Agent focus"
-version = "0.1.0"
+version = "0.1.1"
 min_herdr_version = "0.9.0"
 description = "Agents panel: current workspace + blocked anywhere"
 platforms = ["linux", "macos"]
